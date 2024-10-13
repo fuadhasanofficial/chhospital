@@ -64,13 +64,16 @@ const PatientInformationForm = () => {
 
     const loadData = async () => {
       try {
-        const res = await fetch("https://chhospital-server.vercel.app/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ patient }),
-        });
+        const res = await fetch(
+          "https://chhospital-server.vercel.app/add-patient",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ patient }),
+          }
+        );
         const data = await res.json();
 
         navigate(`/recipt/${data.details.pataintId}`);
