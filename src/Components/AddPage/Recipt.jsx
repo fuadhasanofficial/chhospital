@@ -61,7 +61,7 @@ function Receipt() {
 
       <div className="mt-10 border-t border-dashed border-gray-400 pt-6">
         <h3 className="font-semibold text-xl text-gray-800 mb-4">
-          Doctor' s Notes
+         Doctor' s Notes
         </h3>
         <div className="h-48 bg-gray-100 rounded-lg p-4">
           <p className="text-gray-500 italic">
