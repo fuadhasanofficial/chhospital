@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import LOGO from "../../assets/DA2CEAA9.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,13 +11,9 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         {/* Hospital Logo */}
         <div className="flex items-center space-x-2">
-          <img
-            src="hospital-logo.png"
-            alt="Hospital Logo"
-            className="w-10 h-10"
-          />
+          <img src={LOGO} alt="Hospital Logo" className="w-10 h-10" />
           <span className="text-2xl font-bold text-blue-600">
-            HealthCare Hospital
+            Chasir Hasi Hospital
           </span>
         </div>
 
