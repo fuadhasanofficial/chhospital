@@ -65,7 +65,7 @@ const PatientInformationForm = () => {
     const loadData = async () => {
       try {
         const res = await fetch(
-          "https://chhospital-server.vercel.app/add-patient",
+          "https://chhospital-server-99jf.vercel.app/add-patient",
           {
             method: "POST",
             headers: {

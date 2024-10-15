@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
         element: <Receipt />,
         loader: ({ params }) => {
           return fetch(
-            `https://chhospital-server.vercel.app/pataient/${params.id}`
+            `https://chhospital-server-99jf.vercel.app/pataient/${params.id}`
           );
         },
       },
