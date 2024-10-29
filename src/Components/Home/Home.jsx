@@ -6,9 +6,16 @@ import {
 } from "@heroicons/react/outline";
 import { BeakerIcon } from "@heroicons/react/solid";
 import { Icon } from "@iconify/react";
+import { useEffect } from "react";
 
 import { Link } from "react-router-dom";
+
 const Home = () => {
+  useEffect(() => {
+    fetch("https://chhospital-server-99jf.vercel.app/")
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }, []);
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold mb-8">Hospital Management System</h1>
@@ -107,6 +114,17 @@ const Home = () => {
         </Link>
 
         {/* Admin Card */}
+        <Link to="/admin" className="group">
+          <div className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center justify-center hover:bg-gray-700 transition duration-300">
+            <Icon icon="ri:admin-fill" width="40" height="40" />
+            {/* <ChartBarIcon className="h-10 w-10 text-gray-800 group-hover:text-white mb-2" /> */}
+            <h2 className="text-xl font-semibold text-gray-800 group-hover:text-white">
+              Admin Panel
+            </h2>
+          </div>
+        </Link>
+
+        {/* expence */}
         <Link to="/admin" className="group">
           <div className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center justify-center hover:bg-gray-700 transition duration-300">
             <Icon icon="ri:admin-fill" width="40" height="40" />

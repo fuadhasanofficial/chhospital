@@ -34,6 +34,10 @@ const PatientInformationForm = () => {
 
   useEffect(() => {
     // Calculate the final amount when discount is applied
+    fetch("https://chhospital-server-99jf.vercel.app/")
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+
     if (amount) {
       let discountedAmount = parseFloat(amount);
 
@@ -75,8 +79,9 @@ const PatientInformationForm = () => {
           }
         );
         const data = await res.json();
+        console.log(data);
 
-        navigate(`/recipt/${data.details.pataintId}`);
+        await navigate(`/recipt/${data.details.patientId}`);
 
         console.log(data);
       } catch (error) {
@@ -130,6 +135,28 @@ const PatientInformationForm = () => {
               />
               {errors.name && (
                 <p className="text-red-500 text-sm">{errors.name.message}</p>
+              )}
+            </div>
+
+            {/* Age */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                Age
+              </label>
+              <input
+                type="number"
+                {...register("age", {
+                  required: "Age is required",
+                  min: { value: 0, message: "Age must be greater than 0" },
+                })}
+                className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring ${
+                  errors.age
+                    ? "border-red-500"
+                    : "border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                }`}
+              />
+              {errors.age && (
+                <p className="text-red-500 text-sm">{errors.age.message}</p>
               )}
             </div>
 
@@ -240,40 +267,12 @@ const PatientInformationForm = () => {
                     : "border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
                 }`}
               >
-                <option value="">Select Doctor</option>
-                <option value="Dr. Smith">Dr. Smith</option>
-                <option value="Dr. Johnson">Dr. Johnson</option>
-                <option value="Dr. Patel">Dr. Patel</option>
-                <option value="Dr. Lee">Dr. Lee</option>
+                <option value="">Select a Doctor</option>
+                <option value="doctor_a">Dr. A</option>
+                <option value="doctor_b">Dr. B</option>
               </select>
               {errors.doctor && (
                 <p className="text-red-500 text-sm">{errors.doctor.message}</p>
-              )}
-            </div>
-
-            {/* Ref (Dropdown) */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                Ref
-              </label>
-              <select
-                {...register("ref", {
-                  required: "Reference selection is required",
-                })}
-                className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring ${
-                  errors.ref
-                    ? "border-red-500"
-                    : "border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
-                }`}
-              >
-                <option value="">Select Reference</option>
-                <option value="Ref A">Ref A</option>
-                <option value="Ref B">Ref B</option>
-                <option value="Ref C">Ref C</option>
-                <option value="Ref D">Ref D</option>
-              </select>
-              {errors.ref && (
-                <p className="text-red-500 text-sm">{errors.ref.message}</p>
               )}
             </div>
 
@@ -296,10 +295,10 @@ const PatientInformationForm = () => {
               )}
             </div>
 
-            {/* Discount (Number) */}
+            {/* Discount Number */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                Discount (Number)
+                Discount Number
               </label>
               <input
                 type="number"
@@ -312,50 +311,44 @@ const PatientInformationForm = () => {
               />
             </div>
 
-            {/* Discount (Percentage) */}
+            {/* Discount Percentage */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                Discount (Percentage)
+                Discount Percentage (%)
               </label>
               <input
                 type="number"
-                {...register("discountPercentage", {
-                  min: { value: 0, message: "Discount must be at least 0%" },
-                  max: { value: 100, message: "Discount cannot exceed 100%" },
-                })}
+                {...register("discountPercentage")}
                 className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring ${
                   errors.discountPercentage
                     ? "border-red-500"
                     : "border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
                 }`}
               />
-              {errors.discountPercentage && (
-                <p className="text-red-500 text-sm">
-                  {errors.discountPercentage.message}
-                </p>
-              )}
             </div>
 
-            {/* Final Amount Display */}
-            <div className="md:col-span-2">
+            {/* Display Final Amount */}
+            <div className="col-span-1 md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                Final Amount (after discount)
+                Final Amount after Discount
               </label>
               <input
                 type="text"
                 value={finalAmount}
-                disabled
-                className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-200"
+                readOnly
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
               />
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md mt-6 hover:bg-blue-600 focus:outline-none"
-          >
-            Submit
-          </button>
+          <div className="mt-6">
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Submit
+            </button>
+          </div>
         </form>
       </div>
     </div>

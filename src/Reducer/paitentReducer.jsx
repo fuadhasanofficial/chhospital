@@ -3,6 +3,11 @@ const initialState = {
     name: "Fuad",
     sex: "Male",
   },
+
+  dataLoad: {
+    year: "",
+    month: "",
+  },
 };
 
 const paitentReducer = (state, action) => {
@@ -14,9 +19,13 @@ const paitentReducer = (state, action) => {
       };
       break;
 
-    case "FUAD":
+    case "LOAD_DATA_BY_MONTH":
       return {
         ...state,
+        dataLoad: {
+          year: action.payload.year,
+          month: action.payload.month,
+        },
       };
 
       break;

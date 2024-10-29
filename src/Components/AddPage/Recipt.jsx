@@ -1,12 +1,15 @@
 import { useLoaderData } from "react-router-dom";
 
-function Receipt() {
-  // Function to handle print
+const Recipt = () => {
+  const patientData = useLoaderData(); // Use loader data
+
   const handlePrint = () => {
-    window.print();
+    window.print(); // Trigger the browser print dialog
   };
 
-  const data = useLoaderData();
+  if (!patientData) {
+    return <p>Loading...</p>; // Display loading state until data is fetched
+  }
 
   const {
     name,
@@ -19,77 +22,71 @@ function Receipt() {
     month,
     year,
     amount,
-  } = data;
+    age,
+  } = patientData;
 
   return (
-    <div
-      className="bg-white shadow-lg mx-auto p-10 border border-gray-300"
-      style={{ width: "794px", height: "1123px" }}
-    >
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Hospital Receipt</h1>
-        <p className="text-gray-600">XYZ Hospital, Dhaka</p>
-        <p className="text-sm text-gray-500">
-          Date: {`${date}/${month}/${year}`}
-        </p>
-      </div>
+    <div className="min-h-screen p-8 bg-gray-100 dark:bg-gray-900">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md max-w-2xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-gray-200">
+          Patient Receipt
+        </h2>
 
-      {/* Information in 3 columns */}
-      <div className="grid grid-cols-3 gap-4 text-lg leading-relaxed">
-        <p>
-          <span className="font-semibold">Patient Name:</span> {name}
-        </p>
-        <p>
-          <span className="font-semibold">Patient ID:</span> {pataintId}
-        </p>
-        <p>
-          <span className="font-semibold">Sex:</span> {sex}
-        </p>
-        <p>
-          <span className="font-semibold">Email:</span> {email}
-        </p>
-        <p>
-          <span className="font-semibold">Mobile:</span> {mobile}
-        </p>
-        <p>
-          <span className="font-semibold">Address:</span> {address}
-        </p>
-        <p>
-          <span className="font-semibold">Amount Paid:</span> ৳ {amount}
-        </p>
-      </div>
+        {/* Table Layout for Patient Information */}
+        <table className="min-w-full table-auto text-gray-700 dark:text-gray-200">
+          <tbody>
+            <tr className="border-b border-gray-300 dark:border-gray-700">
+              <th className="py-2 text-left">Name:</th>
+              <td className="py-2">{name}</td>
+            </tr>
+            <tr className="border-b border-gray-300 dark:border-gray-700">
+              <th className="py-2 text-left">Patient ID:</th>
+              <td className="py-2">{pataintId}</td>
+            </tr>
+            <tr className="border-b border-gray-300 dark:border-gray-700">
+              <th className="py-2 text-left">Sex:</th>
+              <td className="py-2">{sex}</td>
+            </tr>
+            <tr className="border-b border-gray-300 dark:border-gray-700">
+              <th className="py-2 text-left">Age:</th>
+              <td className="py-2">{age}</td>
+            </tr>
+            <tr className="border-b border-gray-300 dark:border-gray-700">
+              <th className="py-2 text-left">Email:</th>
+              <td className="py-2">{email}</td>
+            </tr>
+            <tr className="border-b border-gray-300 dark:border-gray-700">
+              <th className="py-2 text-left">Mobile:</th>
+              <td className="py-2">{mobile}</td>
+            </tr>
+            <tr className="border-b border-gray-300 dark:border-gray-700">
+              <th className="py-2 text-left">Address:</th>
+              <td className="py-2">{address}</td>
+            </tr>
+            <tr className="border-b border-gray-300 dark:border-gray-700">
+              <th className="py-2 text-left">Date:</th>
+              <td className="py-2">
+                {date}/{month}/{year}
+              </td>
+            </tr>
+            <tr className="border-b border-gray-300 dark:border-gray-700">
+              <th className="py-2 text-left">Amount:</th>
+              <td className="py-2">{amount}</td>
+            </tr>
+          </tbody>
+        </table>
 
-      <div className="mt-10 border-t border-dashed border-gray-400 pt-6">
-        <h3 className="font-semibold text-xl text-gray-800 mb-4">
-         Doctor' s Notes
-        </h3>
-        <div className="h-48 bg-gray-100 rounded-lg p-4">
-          <p className="text-gray-500 italic">
-            [Blank area for doctor’s writing]
-          </p>
+        <div className="mt-6 text-center">
+          <button
+            onClick={handlePrint}
+            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Print Receipt
+          </button>
         </div>
-      </div>
-
-      <div className="mt-12 text-center">
-        <p className="text-sm text-gray-600">
-          Thank you for visiting XYZ Hospital
-        </p>
-        <p className="text-sm text-gray-600">
-          For inquiries, call: +880-XXXX-XXXXXX
-        </p>
-      </div>
-
-      {/* Print Button */}
-      <div className="mt-8 text-center">
-        <button
-          onClick={handlePrint}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-        >
-          Print Receipt
-        </button>
       </div>
     </div>
   );
-}
+};
 
-export default Receipt;
+export default Recipt;
