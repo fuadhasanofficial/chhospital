@@ -81,7 +81,7 @@ const PatientInformationForm = () => {
         const data = await res.json();
         console.log(data);
 
-        await navigate(`/recipt/${data.details.patientId}`);
+        navigate(`/recipt/${data.details.patientId}`);
 
         console.log(data);
       } catch (error) {
@@ -214,9 +214,9 @@ const PatientInformationForm = () => {
                 Email
               </label>
               <input
+                // defaultValue="example@mail.com"
                 type="email"
                 {...register("email", {
-                  required: "Email is required",
                   pattern: {
                     value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
                     message: "Invalid email address",
@@ -249,6 +249,29 @@ const PatientInformationForm = () => {
               ></textarea>
               {errors.address && (
                 <p className="text-red-500 text-sm">{errors.address.message}</p>
+              )}
+            </div>
+
+            {/* Date of Admission */}
+            <div className="col-span-1 md:col-span-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                Date of Admission
+              </label>
+              <input
+                type="date"
+                {...register("admissionDate", {
+                  required: "Admission date is required",
+                })}
+                className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring ${
+                  errors.admissionDate
+                    ? "border-red-500"
+                    : "border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                }`}
+              />
+              {errors.admissionDate && (
+                <p className="text-red-500 text-sm">
+                  {errors.admissionDate.message}
+                </p>
               )}
             </div>
 

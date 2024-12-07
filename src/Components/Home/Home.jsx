@@ -125,12 +125,17 @@ const Home = () => {
         </Link>
 
         {/* expence */}
-        <Link to="/admin" className="group">
+        <Link to="/acount-expense" className="group">
           <div className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center justify-center hover:bg-gray-700 transition duration-300">
-            <Icon icon="ri:admin-fill" width="40" height="40" />
+            <Icon
+              icon="fluent:money-hand-16-filled"
+              width="40"
+              height="40"
+              style={{ color: "#59d317" }}
+            />
             {/* <ChartBarIcon className="h-10 w-10 text-gray-800 group-hover:text-white mb-2" /> */}
             <h2 className="text-xl font-semibold text-gray-800 group-hover:text-white">
-              Admin Panel
+              Account
             </h2>
           </div>
         </Link>
