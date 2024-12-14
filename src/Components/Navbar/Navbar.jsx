@@ -11,9 +11,9 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         {/* Hospital Logo */}
         <div className="flex items-center space-x-2">
-          <img src={LOGO} alt="Hospital Logo" className="w-10 h-10" />
+          <img src="https://marketplace.canva.com/EAGKU6t2llU/2/0/1600w/canva-blue-green-white-simple-modern-medical-logo-enoKffV7vWg.jpg" alt="Hospital Logo" className="w-10 h-10" />
           <span className="text-2xl font-bold text-blue-600">
-            Doyel Medical Center
+            HOSPITAL NAME 
           </span>
         </div>
 
