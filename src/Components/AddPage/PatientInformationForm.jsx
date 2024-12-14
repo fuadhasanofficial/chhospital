@@ -14,6 +14,7 @@ const PatientInformationForm = () => {
 
   const [darkMode, setDarkMode] = useState(false);
   const [finalAmount, setFinalAmount] = useState(0);
+  const [dueAmount, setDueAmount] = useState(0);
 
   const toggleTheme = () => {
     setDarkMode(!darkMode);
@@ -31,6 +32,7 @@ const PatientInformationForm = () => {
   const amount = watch("amount");
   const discountNumber = watch("discountNumber");
   const discountPercentage = watch("discountPercentage");
+  const payAmount = watch("payAmount");
 
   useEffect(() => {
     // Calculate the final amount when discount is applied
@@ -54,7 +56,13 @@ const PatientInformationForm = () => {
 
       setFinalAmount(discountedAmount >= 0 ? discountedAmount.toFixed(2) : 0);
     }
-  }, [amount, discountNumber, discountPercentage]);
+
+    if (finalAmount) {
+      const pay = payAmount ? parseFloat(payAmount) : 0;
+      const due = Math.max(finalAmount - pay, 0);
+      setDueAmount(due.toFixed(2));
+    }
+  }, [amount, discountNumber, discountPercentage, finalAmount, payAmount]);
 
   const onSubmit = (data) => {
     console.log("Final Amount after discount:", finalAmount);
@@ -232,6 +240,25 @@ const PatientInformationForm = () => {
                 <p className="text-red-500 text-sm">{errors.email.message}</p>
               )}
             </div>
+            {/* Refarance  */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                Ref
+              </label>
+              <input
+                // defaultValue="example@mail.com"
+                type="text"
+                {...register("ref")}
+                className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring ${
+                  errors.ref
+                    ? "border-red-500"
+                    : "border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                }`}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm">{errors.email.message}</p>
+              )}
+            </div>
 
             {/* Address */}
             <div className="col-span-1 md:col-span-2">
@@ -300,6 +327,7 @@ const PatientInformationForm = () => {
             </div>
 
             {/* Amount */}
+            {/* Amount */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
                 Amount
@@ -351,7 +379,7 @@ const PatientInformationForm = () => {
             </div>
 
             {/* Display Final Amount */}
-            <div className="col-span-1 md:col-span-2">
+            <div className="">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
                 Final Amount after Discount
               </label>
@@ -362,6 +390,39 @@ const PatientInformationForm = () => {
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
               />
             </div>
+          </div>
+
+          {/* Pay Amount */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+              Pay Amount
+            </label>
+            <input
+              type="number"
+              {...register("payAmount", { required: "Pay Amount is required" })}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring ${
+                errors.payAmount
+                  ? "border-red-500"
+                  : "border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+              }`}
+            />
+            {errors.payAmount && (
+              <p className="text-red-500 text-sm">{errors.payAmount.message}</p>
+            )}
+          </div>
+
+          {/* Display Due Amount */}
+          <div className="">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+              Due Amount
+            </label>
+            <input
+              {...register("dueAmount")}
+              type="text"
+              value={dueAmount}
+              readOnly
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+            />
           </div>
 
           <div className="mt-6">

@@ -9,6 +9,7 @@ import AdminPanel from "../Components/Authtemtication/Admin";
 import LoginForm from "../Components/Authtemtication/Login";
 import RegistrationForm from "../Components/Authtemtication/Registration";
 import Dashboard from "../Components/Dashboard/Dashboard";
+import ProductList from "../Components/Dashboard/Tiny-components/Products";
 import Home from "../Components/Home/Home";
 import Main from "../Layout/Main";
 export const router = createBrowserRouter([
@@ -24,7 +25,8 @@ export const router = createBrowserRouter([
       { path: "/admin", element: <AdminPanel /> },
       { path: "/add-test", element: <AddTest /> },
       { path: "/acount-expense", element: <ExpenseForm /> },
-      { path: "signup", element: <RegistrationForm /> },
+      { path: "/signup", element: <RegistrationForm /> },
+      { path: "/products", element: <ProductList /> },
     ],
   },
   {

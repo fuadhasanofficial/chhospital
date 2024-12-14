@@ -1,10 +1,15 @@
 import React, { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+import PaidIcon from "../../assets/icon/pngtree-paid-stamp-vector-illustration-png-image_6585127.png";
+
 import { useLoaderData } from "react-router-dom";
-import { ReactToPrint } from "react-to-print";
 
 const Receipt = () => {
   const patientData = useLoaderData(); // Fetch data using loader
-  const componentRef = useRef(); // Ref for printable content
+  // Ref for printable content
+
+  const contentRef = useRef(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
 
   if (!patientData) {
     return <p>Loading...</p>; // Display loading state until data is fetched
@@ -22,25 +27,32 @@ const Receipt = () => {
     year,
     amount,
     age,
+    dueAmount,
   } = patientData;
 
-  // Print handler using `useReactToPrint`
-  ReactToPrint({
-    content: () => componentRef.current, // Printable content ref
-    documentTitle: "Receipt - Fuad", // Document title
-  });
+  const isDue = parseInt(dueAmount);
 
   return (
     <div className="min-h-screen p-8 bg-gray-100 dark:bg-gray-900">
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md max-w-3xl mx-auto">
         {/* Printable Content */}
-        <div ref={componentRef} className="printable-content">
+        <div ref={contentRef} className="printable-content p-10">
+          <div className="flex justify-center items-center gap-3">
+            <img
+              className="w-24"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHbrd53dKPbSJdfctykEYHlbaK6ZDbCiTmjA&s"
+              alt=""
+            />
+            <h2 className="text-center text-black text-2xl">
+              Swapno Genarel Hospital
+            </h2>
+          </div>
           <table className="w-full text-gray-700 dark:text-gray-200">
             <tbody>
               <tr className="border-b border-gray-300 dark:border-gray-700">
                 <th className="py-2 px-4 text-left">Name:</th>
                 <td className="py-2 px-4">{name}</td>
-                <th className="py-2 px-4 text-left">Patient ID:</th>
+                <th className="py-2 px-4 text-left"> ID:</th>
                 <td className="py-2 px-4">{patientId}</td>
               </tr>
               <tr className="border-b border-gray-300 dark:border-gray-700">
@@ -63,24 +75,31 @@ const Receipt = () => {
                   {date}/{month}/{year}
                 </td>
               </tr>
-              <tr>
+              <tr className="border-b border-gray-300 dark:border-gray-700">
                 <th className="py-2 px-4 text-left">Amount:</th>
                 <td className="py-2 px-4">{amount}</td>
-                <td colSpan="2"></td>
+                <th className="py-2 px-4 text-left">Payment</th>
+
+                {
+                  <td className="py-2 px-4">
+                    {isDue ? (
+                      dueAmount
+                    ) : (
+                      <img className="w-16" src={PaidIcon} />
+                    )}
+                  </td>
+                }
               </tr>
+              <tr className="border-b border-gray-300 dark:border-gray-700"></tr>
             </tbody>
           </table>
         </div>
       </div>
       {/* Print Button */}
-      <div className="mt-6 text-center">
-        <button
-          onClick={handlePrint}
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
-          Print Receipt
-        </button>
-      </div>
+
+      <button onClick={() => reactToPrintFn()} className="bg-primary">
+        Print{" "}
+      </button>
     </div>
   );
 };

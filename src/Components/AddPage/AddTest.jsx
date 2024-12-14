@@ -7,16 +7,6 @@ const AddTest = () => {
   const { name, sex, mobile, age } = data;
   const today = new Date().toISOString().split("T")[0];
 
-  useEffect(() => {
-    console.log(patientId);
-    fetch(` http://localhost:5000/pataient/${patientId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        console.log(data);
-      });
-  }, [patientId]);
-
   const {
     register,
     handleSubmit,
@@ -25,10 +15,48 @@ const AddTest = () => {
   } = useForm();
 
   const [finalAmount, setFinalAmount] = useState(0);
+  const [dueAmount, setDueAmount] = useState(0);
 
   const amount = watch("amount") || 0;
   const discountPercentage = watch("discountPercentage") || 0;
   const discountAmount = watch("discountAmount") || 0;
+  const discountNumber = watch("discountNumber");
+  const payAmount = watch("payAmount");
+
+  useEffect(() => {
+    console.log(patientId);
+    fetch(` http://localhost:5000/pataient/${patientId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+        console.log(data);
+      });
+
+    if (amount) {
+      let discountedAmount = parseFloat(amount);
+      if (discountPercentage && discountPercentage > 0) {
+        discountedAmount =
+          discountedAmount - (discountedAmount * discountPercentage) / 100;
+      }
+      if (discountNumber && discountNumber > 0) {
+        discountedAmount = discountedAmount - parseFloat(discountNumber);
+      }
+
+      setFinalAmount(discountedAmount >= 0 ? discountedAmount.toFixed(2) : 0);
+    }
+    if (finalAmount) {
+      const pay = payAmount ? parseFloat(payAmount) : 0;
+      const due = Math.max(finalAmount - pay, 0);
+      setDueAmount(due.toFixed(2));
+    }
+  }, [
+    patientId,
+    amount,
+    discountPercentage,
+    discountNumber,
+    finalAmount,
+    payAmount,
+  ]);
 
   const calculateFinalAmount = () => {
     let calculatedFinalAmount = amount;
@@ -231,6 +259,84 @@ const AddTest = () => {
             {errors.amount && (
               <p className="text-red-500 text-sm">{errors.amount.message}</p>
             )}
+          </div>
+
+          {/* Discount Number */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+              Discount Number
+            </label>
+            <input
+              type="number"
+              {...register("discountNumber")}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring ${
+                errors.discountNumber
+                  ? "border-red-500"
+                  : "border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+              }`}
+            />
+          </div>
+
+          {/* Discount Percentage */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+              Discount Percentage (%)
+            </label>
+            <input
+              type="number"
+              {...register("discountPercentage")}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring ${
+                errors.discountPercentage
+                  ? "border-red-500"
+                  : "border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+              }`}
+            />
+          </div>
+
+          {/* Display Final Amount */}
+          <div className="">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+              Final Amount after Discount
+            </label>
+            <input
+              type="text"
+              value={finalAmount}
+              readOnly
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+            />
+          </div>
+
+          {/* Pay Amount */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+              Pay Amount
+            </label>
+            <input
+              type="number"
+              {...register("payAmount", { required: "Pay Amount is required" })}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring ${
+                errors.payAmount
+                  ? "border-red-500"
+                  : "border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+              }`}
+            />
+            {errors.payAmount && (
+              <p className="text-red-500 text-sm">{errors.payAmount.message}</p>
+            )}
+          </div>
+
+          {/* Display Due Amount */}
+          <div className="">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+              Due Amount
+            </label>
+            <input
+              {...register("dueAmount")}
+              type="text"
+              value={dueAmount}
+              readOnly
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+            />
           </div>
 
           {/* Final Amount Display */}

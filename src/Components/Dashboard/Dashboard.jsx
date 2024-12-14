@@ -27,7 +27,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100">
       {/* Sidebar */}
-      <aside className="w-64 bg-gradient-to-t from-blue-900 to-blue-700 text-white p-6 shadow-lg">
+      <aside className="w-64 bg-purple-400 text-white p-6 shadow-lg">
         <div className="text-2xl font-bold mb-8 flex items-center">
           <Icon
             icon="mdi:heart-pulse"
@@ -38,7 +38,7 @@ const Dashboard = () => {
           <span>Hospital Dashboard</span>
         </div>
         <ul className="space-y-4">
-          <li>
+          <li className="border-2 hover:rounded-md">
             <a href="#" className="hover:text-blue-300 flex items-center">
               <Icon
                 icon="mdi:patient-outline"
